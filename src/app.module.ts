@@ -2,23 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import entities from './typeorm';
 import { AuthModule } from './auth/auth.module';
+import { typeOrmConfigAsync } from './typeorm/typeorm.config';
 
 @Module({
-  imports: [
-    AuthModule,
-    TypeOrmModule.forRoot({
-      type: "mysql",
-      host: "localhost",
-      port: 3306,
-      username: 'root',
-      password: 'root123!',
-      database: 'testdb',
-      entities,
-      synchronize: true,
-  })
-],
+  imports: [AuthModule,TypeOrmModule.forRootAsync(typeOrmConfigAsync)],
   controllers: [AppController],
   providers: [AppService],
 })
